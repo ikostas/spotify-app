@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Track from './Track';
+import styles from './styles/searchResults.module.css';
 
 const mockTracks = [
   { id: '1', trackName: 'Midnight City', artist: 'M83' },
@@ -11,14 +12,15 @@ const mockTracks = [
 
 function SearchResults() {
   return(
-    <div className="searchResults">
+    <div className={styles.searchResults}>
       <h3>Search Results:</h3>
       {mockTracks.map((track) => (
-      <Track 
-        key={track.id}
-        trackName={track.trackName}
-        artist={track.artist}
-      />
+        <Track 
+          key={track.id}
+          trackName={track.trackName}
+          artist={track.artist}
+          isPlaylistTrack={false}
+        />
       ))}
     </div>
   );

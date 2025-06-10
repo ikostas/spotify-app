@@ -1,0 +1,7 @@
+.playlist {
+  flex: 1;
+  min-width: 45%;
+}
+.spotifySave {
+  width: 100%;
+}
