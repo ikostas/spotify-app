@@ -1,0 +1,30 @@
+.track {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: lightgray;
+  border-radius: 8px;
+  margin: 5px 0;
+  padding: 5px 10px;
+}
+.trackInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.trackName {
+  font-weight: bold;
+  font-size: 1rem;
+  margin: 0;
+  padding: 0;
+}
+.artist {
+  font-size: 0.7rem;
+  margin: 0;
+  padding: 0;
+}
+.trackAdd {
+  font-size: 2rem;
+  margin: 0;
+  padding: 0;
+}
