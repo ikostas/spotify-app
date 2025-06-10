@@ -28,3 +28,6 @@
   margin: 0;
   padding: 0;
 }
+.addRemove {
+  text-decoration: none;
+}

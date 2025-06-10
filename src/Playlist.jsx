@@ -2,7 +2,7 @@ import React from 'react';
 import Track from './Track';
 import styles from './styles/playlist.module.css';
 
-function Playlist({playlist}) {
+function Playlist({playlist, onTrackAction}) {
   return (
     <div className={styles.playlist}>
       <h3>Add songs to your Spotify playlist:</h3>
@@ -15,10 +15,12 @@ function Playlist({playlist}) {
       {playlist.map((track) => (
         <Track 
           key={track.id}
+          id={track.id}
           trackName={track.trackName}
           artist={track.artist}
           album={track.album}
           isPlaylistTrack={true}
+          onTrackAction={onTrackAction}
         />
       ))}
       <button className={styles.spotifySave}>Save to Spotify</button>
