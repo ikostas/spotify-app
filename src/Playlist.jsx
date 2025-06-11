@@ -1,15 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Track from './Track';
 import styles from './styles/playlist.module.css';
 
-function Playlist({playlist, onTrackAction}) {
+function Playlist({playlist, onTrackAction, onPlaylistAction}) {
+  const [playlistName, setPlaylistName] = useState('');
+  const handleNameChange = e => setPlaylistName(e.target.value);
   return (
     <div className={styles.playlist}>
       <h3>Add songs to your Spotify playlist:</h3>
       <form>
         <fieldset>
           <label htmlFor="playListName">Enter the name for your playlist:</label>
-          <input type="text" name="playListName" id="playListName" placeholder="Playlist name" aria-label="Enter playlist name" />
+          <input type="text" name="playListName" id="playListName" placeholder="Playlist name" aria-label="Enter playlist name" value={playlistName} onChange={handleNameChange} />
         </fieldset>
       </form>
       {playlist.map((track) => (
@@ -21,9 +23,10 @@ function Playlist({playlist, onTrackAction}) {
           album={track.album}
           isPlaylistTrack={true}
           onTrackAction={onTrackAction}
+          uri={track.uri}
         />
       ))}
-      <button className={styles.spotifySave}>Save to Spotify</button>
+      <button className={styles.spotifySave} onClick={(e) => onPlaylistAction(e, playlistName)}>Save to Spotify</button>
     </div>
   )
 }

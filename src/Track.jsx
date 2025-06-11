@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import styles from './styles/track.module.css';
 
-function Track({id, trackName, artist, album, isPlaylistTrack, onTrackAction}) {
+function Track({id, trackName, artist, album, isPlaylistTrack, onTrackAction, uri}) {
   const buttonSymbol = isPlaylistTrack ? '-' : '+';
-  console.log('ID from Track:', id);
 
       /* onClick={buttonSymbol === '+' ? addSong : removeSong} */
   return (
@@ -12,7 +11,7 @@ function Track({id, trackName, artist, album, isPlaylistTrack, onTrackAction}) {
         <h4 className={styles.trackName}>{trackName}</h4>
         <p className={styles.artist}>{artist} | {album}</p>
       </div>
-      <div className={styles.trackAdd}><a href="#" className={styles.addRemove} onClick={(e) => (onTrackAction(e, id, isPlaylistTrack))}>{buttonSymbol}</a></div>
+      <div className={styles.trackAdd}><a href="#" className={styles.addRemove} onClick={(e) => onTrackAction(e, id, isPlaylistTrack)}>{buttonSymbol}</a></div>
     </div>
   )
 }

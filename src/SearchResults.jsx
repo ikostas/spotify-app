@@ -15,6 +15,7 @@ function SearchResults({searchResults, onTrackAction}) {
           album={track.album}
           isPlaylistTrack={false}
           onTrackAction={onTrackAction}
+          uri={track.uri}
         />
       ))}
     </div>
