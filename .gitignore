@@ -31,6 +31,7 @@ dist-ssr
 
 # misc
 .DS_Store
+process.env
 .env
 .env.local
 .env.development.local
