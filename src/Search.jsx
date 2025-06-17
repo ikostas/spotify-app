@@ -5,7 +5,15 @@ function SearchBar({tokenCheck, pushTracks}) {
   const handleChange = e => {
     const currentQuery = e.target.value;
     setSearch(currentQuery);
-    if(currentQuery.length > 3) search(currentQuery);
+    if(currentQuery.length > 3) setTimeout(() => search(currentQuery), 3000);
+  }
+  const handleSearchClick = e => {
+    e.preventDefault();
+    if(searchQuery.length > 3) {
+      search(searchQuery);
+    } else {
+      alert("The search query should be at least 4 symbols!");
+    }
   }
   const search = async query => {
     const token = await tokenCheck();
@@ -59,7 +67,7 @@ function SearchBar({tokenCheck, pushTracks}) {
         <input type="text" name="search" id="search" placeholder="Search text" aria-label="Search text"
         value={searchQuery}
         onChange={handleChange} />
-        <input type="submit" value="Search" />
+        <input type="submit" value="Search" onClick={handleSearchClick} />
       </fieldset>
     </form>
   )

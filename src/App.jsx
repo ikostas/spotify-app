@@ -71,7 +71,9 @@ function App() {
           onTrackAction={handleLinkClick} />
         <Playlist playlist={playlist} 
           onTrackAction={handleLinkClick} 
-          onPlaylistAction={handlePLSave} />
+          onPlaylistAction={handlePLSave}
+          tokenCheck={checkUpdateToken}
+        />
       </div>
     </>
   )
