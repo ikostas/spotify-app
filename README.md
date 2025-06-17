@@ -16,7 +16,7 @@ The search is implemented, but to implement the 'save playlist' feature, you nee
 
 ## Installation instructions
 
-First, you need `npm i` to install the dependencies, then you need [register your Spotify app](https://developer.spotify.com/documentation/web-api/concepts/apps) and create `.env` file with the following:
+First, you need `npm i` to install the dependencies, then you need to [register your Spotify app](https://developer.spotify.com/documentation/web-api/concepts/apps) and create `.env` file with the following:
 
 ```bash
 VITE_CID=<your client ID from Spotify>
