@@ -4,47 +4,15 @@ import SearchResults from './SearchResults';
 import Playlist from './Playlist';
 import styles from './styles/app.module.css';
 import {mockDataTracks, mockDataSearchResults} from './mockdata';
+import {getAccessToken} from './spotifyAuth';
 
 function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [playlist, setPlaylist] = useState([]);
   const [accessCreds, setAccessCreds] = useState({});
-  const getAccessToken = async () => {
-    const params = new URLSearchParams();
-    params.append('grant_type', 'client_credentials');
-    params.append('client_id', import.meta.env.VITE_CID);
-    params.append('client_secret', import.meta.env.VITE_CSECRET);
-    const url = import.meta.env.VITE_BASEURL;
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: params.toString()
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error_description || `HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      const refreshBuffer = 15; // seconds, renew the token before it expires
-      const newAccessCreds={
-        token: data.access_token,
-        life: data.expires_in,
-        end: Date.now() + (data.expires_in - refreshBuffer) * 1000
-      };
-      setAccessCreds(newAccessCreds);
-      return newAccessCreds.token;
-    } catch (err) {
-      console.error('Error fetching Spotify token:', err);
-    }
-  }
   const checkUpdateToken = async () => {
     if(!accessCreds.end || Date.now() > accessCreds.end) {
-      const newToken = await getAccessToken();
+      const newToken = await getAccessToken(setAccessCreds);
       return newToken;
     }
     return accessCreds.token;
@@ -55,7 +23,7 @@ function App() {
       alert('Tracklist name or tracklist is empty!');
     } else {
       const spotifyPlaylist = [];
-      playlist.forEach(song => spotifyPlaylist.push(song.uri));
+      playlist.forEach(track => spotifyPlaylist.push(track.uri));
       setPlaylist([]);
     }
   }
@@ -64,41 +32,39 @@ function App() {
     if (isPlaylistTrack) {
       const trackToAdd = playlist.find(track => track.id === id);
 
-      // check if track is in search results
-      // if not, add to search results
-      // if it is, do not add track to search results
-      // finally, remove the track from the playlist
+      // check if track is in search results and add to search results
+      // remove the track from the playlist
       if (trackToAdd && !searchResults.some(track => track.id === id)){
         setSearchResults([trackToAdd, ...searchResults]);
       }
-      setPlaylist(playlist => playlist.filter(song => song.id !== id));
+      setPlaylist(playlist => playlist.filter(track => track.id !== id));
     } else {
       const trackToAdd = searchResults.find(track => track.id === id);
 
+      // add the track to the playlist, if it's not there
       // remove the track from search results
-      // add the track to the playlist
-      if(trackToAdd){
-        setSearchResults(searchResults => searchResults.filter(song => song.id !== id));
+      if(trackToAdd && !playlist.some(track => track.id === id)){
         setPlaylist([trackToAdd, ...playlist]);
       }
+      setSearchResults(searchResults => searchResults.filter(track => track.id !== id));
     }
   }
 
   const getData = async (update = null) => {
     if(!update) {
+  // for example: useEffect(() => getData, []);
       setPlaylist(mockDataTracks);
       setSearchResults(mockDataSearchResults);
-    } else {
-
-
+    } else { // get real data from API
+      setSearchResults(update);
     }
   }
-  useEffect(() => getData, []);
 
   return (
     <>
       <SearchBar 
-        tokenCheck={checkUpdateToken}/>
+        pushTracks={getData}
+        tokenCheck={checkUpdateToken} />
       <div className={styles.tworows}>
         <SearchResults 
           searchResults={searchResults}

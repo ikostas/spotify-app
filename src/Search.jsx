@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-function SearchBar({tokenCheck}) {
+function SearchBar({tokenCheck, pushTracks}) {
   const [searchQuery, setSearch] = useState('');
   const handleChange = e => {
     const currentQuery = e.target.value;
@@ -41,9 +41,9 @@ function SearchBar({tokenCheck}) {
             album: track.album.name,
             uri: track.uri,
           };
-
           formattedTracks.push(newTrack);
         });
+        pushTracks(formattedTracks);
         
       } else {
         console.warn("Spotify API response did not contain expected track data structure.");
